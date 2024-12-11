@@ -1,0 +1,82 @@
+variable 	q1 equal -1.050 # charge of O
+variable 	q2 equal 1.050 # charge of Fe(II)
+variable 	q3 equal 1.575 # charge of Fe(III)
+variable 	rand equal round(random(0,1e7,452345))
+
+#####################################
+
+units           real
+atom_style      full
+boundary        p p p
+timestep        0.5 
+
+pair_style      lj/cut/coul/long 8.0 12.0
+kspace_style	pppm 1e-6
+
+bond_style	harmonic 
+angle_style	harmonic
+special_bonds	charmm
+
+#####################################
+
+read_data       surface_undercoordinated_fe_highlighted.data &
+                extra/atom/types 0 &
+                extra/bond/types 1 &
+                extra/angle/types 1 &
+                extra/dihedral/types 0 &
+                extra/improper/types 0 &
+                extra/bond/per/atom 2 &
+                extra/angle/per/atom 5 &
+                extra/dihedral/per/atom 0 &
+                extra/improper/per/atom 0 &
+                extra/special/per/atom 3 & 
+
+include		ff_water_fe3o4.param
+molecule        h2o tip3p.template toff 7
+
+change_box	all x scale 3.0 y scale 3.0 z scale 3.0
+displace_atoms	all move 50 50 50 units box
+
+#group 		Fe type 4 
+#group		O type 3
+#variable	nFe equal count(Fe)
+#variable	nO equal count(O)
+#
+#print 		"nFe: ${nFe} -  nO: ${nO}"
+#
+#variable	nFe_3 equal ((${nO}*${q1}+${nFe}*${q2})/(${q2}-${q3}))
+#
+#print		"nFe_3: ${nFe_3}"
+#
+#set 		group Fe type/subset 5 ${nFe_3} ${rand}
+#
+#set		type 3 charge ${q1}
+#set		type 4 charge ${q2}
+#set		type 5 charge ${q3}
+
+#group		tet2 type 3
+#group		oct3 type 5
+
+group		all_not3 type 1 2 4 5 6 
+
+variable 	qtot equal charge(all)
+variable	com_x equal xcm(all,x)
+variable	com_y equal xcm(all,y)
+variable	com_z equal xcm(all,z)
+
+print 		"total charge of system: ${qtot}"
+print		"center of mass of all atoms: ${com_x} ${com_y} ${com_z}"
+
+region		np sphere ${com_x} ${com_y} ${com_z} 13.3 units box side out 
+region          full sphere ${com_x} ${com_y} ${com_z} 14.3 units box side in 
+region		water_box intersect 2 full np
+
+create_atoms    0 random 100 ${rand} water_box mol h2o ${rand} units box
+
+group		type_9 type 9
+
+delete_atoms	overlap 2 type_9 all_not3 mol yes
+
+
+
+write_data	water_nsp.data

@@ -1,0 +1,60 @@
+units           real
+atom_style      full
+boundary        p p p
+kspace_style    pppm 1e-6
+
+# modified CLAYFF parameters from Kerisit (2011)
+pair_style      lj/cut/coul/long 8.0 12.0
+bond_style      harmonic
+angle_style	harmonic
+special_bonds   lj/coul 0.0 0.0 1.0
+
+read_data       water_nsp.data 
+include		ff_water_fe3o4.param
+
+group Fe type 4 5
+
+variable nFe equal count(Fe)
+variable nO equal count(O)
+
+# swap atoms on FeO to find energetical favourable charge ordering
+fix swp Fe atom/swap 1 10 29494 0.0 types 4 5
+thermo 100
+thermo_style custom step temp epair emol etotal press f_swp[1] f_swp[2]
+run 100000
+write_data nsp_water_swp_01.data
+
+# minimimze dissociated water -oh and surface h
+group immobile type 3 4 5
+fix freeze immobile setforce 0.0 0.0 0.0
+minimize 1.0e-9 1.0e-12 10000 100000
+unfix freeze
+unfix swp
+thermo_style one
+write_data nsp_water_min_01.data
+
+# swap atoms on FeO to find energetical favourable charge ordering
+fix swp Fe atom/swap 1 10 29494 0.0 types 4 5
+thermo 100
+thermo_style custom step temp epair emol etotal press f_swp[1] f_swp[2]
+run 100000
+write_data nsp_water_swp_02.data
+
+# minimize full structure again
+minimize 1.0e-6 1.0e-9 1000 10000
+write_data nsp_water_min_02.data
+
+# swap atoms on FeO during npt run
+fix swp Fe atom/swap 10000 100 29494 300.0 types 4 5
+fix freeze immobile setforce 0.0 0.0 0.0
+fix nvt all nvt temp 300.0 300.0 50.0
+#
+thermo_style custom step temp epair emol etotal press f_swp[1] f_swp[2]
+
+velocity all create 300.0 4928459 dist gaussian
+timestep 0.5
+dump  trj all atom 1000 md.lammpstrj
+run   1000000
+unfix nvt
+
+write_data nsp_water_01_nvt.data

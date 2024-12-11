@@ -1,0 +1,20 @@
+variable rand equal round(random(0,1e7,452345))
+
+units           real
+atom_style      charge
+boundary        f f f
+
+# modified CLAYFF parameters from Kerisit (2011)
+pair_style      lj/cut/coul/cut 45.0
+neigh_modify one 10000
+
+
+read_data       cub_re_swp_robert.data
+
+group  fe type 1 2
+
+# relax first only positions of atoms
+minimize 1.0e-9 1.0e-12 10000 100000
+
+#write_data      cub_re_swp_min.data
+

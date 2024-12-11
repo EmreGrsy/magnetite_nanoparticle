@@ -1,0 +1,42 @@
+variable rand equal round(random(0,1e7,452345))
+
+units           metal                   # metal timestep is 1 ps
+atom_style      charge
+boundary        f f f                   # by assiging this type of boundry we put the system in vacuum  
+timestep        0.0005                  # timestep is 0.5 fs
+
+pair_style      lj/cut/coul/cut 35.0    # by setting this cutoff lenght, we let all of the atoms to interact with each other because nanocubes dimensions are 25.0
+neigh_modify    one 10000
+comm_style      tiled
+
+read_data       nsp_26.6A.data
+balance         1.1 rcb
+
+group  Fe type 2 3
+group  O  type 1
+
+dump dmp all custom 2000 swap.lammpstrj id type q x y z               # write to dump file in each 0.01 ns
+dump_modify dmp sort id
+
+thermo 100
+
+#min_style sd
+#min_modify line quadratic
+#minimize 1.0e-9 1.0e-12 10000 100000
+
+
+fix swp Fe atom/swap 1 100 ${rand} 300.0 types 2 3
+thermo_style custom step temp pe f_swp[1] f_swp[2]
+velocity all create 300.0 ${rand} rot yes mom yes dist gaussian
+run 20000                                                                # 1 ps of swap
+write_data	nsp_26.6_swp.data
+unfix		swp
+
+fix nve1 all nve
+fix swp Fe atom/swap 1 100 ${rand} 300.0 types 2 3                     # perform 100 swap in each timestep at 500 between Fe(II) and Fe(III)
+fix lngvn all temp/csvr 300.0 300.0 $(100.0*dt) ${rand}                               # heat up the system by using 0.1 ps timesteps
+thermo_style custom step temp pe f_swp[1] f_swp[2]                      # f_swp [1] is for swap attempts f_swp[2] is for succesfull swaps
+velocity all create 300.0 ${rand} rot yes mom yes dist gaussian        # rescale velocites for md, linear momentum and angular momentum is zeroed so the wont wonder around in random directions
+run 2000000                                                             # 1 ns 300K
+
+write_data	nsp_26.6_1ns.data

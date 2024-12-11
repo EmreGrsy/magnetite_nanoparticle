@@ -1,0 +1,17 @@
+####-----------fe3o4-h20----------###########
+
+pair_coeff      8 8  0.102 3.188  # water O
+pair_coeff      9 9  0.0 0.0  # water H 
+
+pair_coeff 	1 1  0.1554 3.16554  # O
+pair_coeff 	2 2  9.0298e-06 4.07222  # Fe2
+pair_coeff 	3 3  9.0298e-06 4.07222  # Fe3
+pair_coeff      4 4  9.0298e-06 4.07222  # Fe3
+pair_coeff      5 5  9.0298e-06 4.07222  # Fe3
+pair_coeff      6 6  9.0298e-06 4.07222  # Fe3
+pair_coeff      7 7  9.0298e-06 4.07222  # Fe3
+
+
+bond_coeff      1  450 0.9572 
+
+angle_coeff     1 55 105.52 

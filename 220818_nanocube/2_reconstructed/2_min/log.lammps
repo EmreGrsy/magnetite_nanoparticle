@@ -1,0 +1,83 @@
+LAMMPS (17 Feb 2022)
+variable rand equal round(random(0,1e7,452345))
+
+units           real
+atom_style      charge
+boundary        f f f
+
+# modified CLAYFF parameters from Kerisit (2011)
+pair_style      lj/cut/coul/cut 45.0
+neigh_modify one 10000
+
+
+read_data       cub_re_swp_robert.data
+Reading data file ...
+  orthogonal box = (-2.220001 -2.220001 -2.220001) to (99.540001 99.540001 99.540001)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  1466 atoms
+  reading velocities ...
+  1466 velocities
+  read_data CPU = 0.025 seconds
+
+group  fe type 1 2
+602 atoms in group fe
+
+# relax first only positions of atoms
+minimize 1.0e-9 1.0e-12 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (../min.cpp:187)
+  generated 3 of 3 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 10000, page size: 100000
+  master list distance cutoff = 47
+  ghost atom cutoff = 47
+  binsize = 23.5, bins = 5 5 5
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut/coul/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 8.494 | 8.494 | 8.494 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0      -290326            0      -290326   -2054.4601 
+      53            0   -295544.53            0   -295544.53  -0.22002031 
+Loop time of 1.90182 on 1 procs for 53 steps with 1466 atoms
+
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -290326.001746662  -295544.529574551    -295544.5298229
+  Force two-norm initial, final = 1996.4361 0.39657744
+  Force max component initial, final = 77.103958 0.032967994
+  Final line search alpha, max atom move = 1 0.032967994
+  Iterations, force evaluations = 53 105
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 1.8999     | 1.8999     | 1.8999     |   0.0 | 99.90
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.318e-05  | 1.318e-05  | 1.318e-05  |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.001854   |            |       |  0.10
+
+Nlocal:           1466 ave        1466 max        1466 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    1.07384e+06 ave 1.07384e+06 max 1.07384e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1073845
+Ave neighs/atom = 732.5
+Neighbor list builds = 0
+Dangerous builds = 0
+
+#write_data      cub_re_swp_min.data
+
+Total wall time: 0:00:01

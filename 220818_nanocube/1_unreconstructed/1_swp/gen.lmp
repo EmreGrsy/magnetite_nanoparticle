@@ -1,0 +1,40 @@
+variable        q1 equal 1.050  # Charge of Fe(II).
+variable        q2 equal 1.575  # Charge of Fe(III).
+variable        q3 equal -1.050  # Charge of O.
+
+variable        rand equal round(random(0,1e7,452345))
+
+units		real
+atom_style	full
+timestep	1.0
+boundary	f f f
+
+pair_style      lj/cut/coul/cut 35.0
+
+read_data	cub_un.data
+
+group           Fe type 1 2
+group           O type 3
+variable        nFe equal count(Fe)
+variable        nO equal count(O)
+
+variable        nFe_3 equal (${q1}*(${nO}-${nFe}))/(${q2}-${q1})
+
+# Reset all Fe ions to Fe(II).
+set             group Fe type 1
+
+# Set a random subset to Fe ions to Fe(III) to assure charge neutrality.
+set             group Fe type/subset 2 ${nFe_3} ${rand}
+
+set             type 1 charge ${q1}
+set             type 2 charge ${q2}
+set             type 3 charge ${q3}
+
+reset_atom_ids
+
+# Sanity check.
+variable        qtot equal charge(all)
+print           "total charge of system: ${qtot}"
+
+write_data      cub_np_un.data
+
