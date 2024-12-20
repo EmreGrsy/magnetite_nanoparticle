@@ -7,7 +7,7 @@ This repository contains scripts and data related to the nanoparticle section of
 [<img src="TOC2.png" alt="Table of Contents Figure" width="40%">](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290) 
 
 ## Overview  
-This repository provides workflows and analysis scripts for studying magnetite nanoparticles. It includes scripts to generate spherical and cubical nanoparticles, hydroxylate undercoordinated Fe ions (spherical), apply corner reconstruction (cubical), and compare reconstructed vs. unreconstructed nanocubes. For both cubical and spherical nanoparticles, minimization and different ensembles are also explored.
+This repository contains workflows and analysis scripts for studying magnetite nanoparticles. It includes scripts to generate spherical and cubical nanoparticles, hydroxylate undercoordinated Fe ions (spherical), apply corner reconstruction (cubical), and compare reconstructed vs. unreconstructed nanocubes. For both cubical and spherical nanoparticles, minimization and different ensembles are also explored.
 
 ## Repository Structure  
 ```
