@@ -4,7 +4,7 @@
 
 This repository contains scripts and data used in the nanoparticle section of the research paper [**Oxidation-State Dynamics and Emerging Patterns in Magnetite**](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290). 
 
-[<img src="TOC2.png" alt="Table of Contents Figure" width="40%">](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290) 
+[<img src="TOC2.png" alt="Table of Contents Figure" width="30%">](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290) 
 
 ## Overview  
 The repository contains production and analysis scripts for investigating magnetite nanoparticles via oxidation state swaps. It includes scripts to generate spherical and cubical nanoparticles, hydroxylate undercoordinated Fe ions (spherical), apply corner reconstruction (cubical), and compare reconstructed vs. unreconstructed nanocubes. For both cubical and spherical nanoparticles, minimization and different ensembles are also explored.
