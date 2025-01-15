@@ -7,7 +7,7 @@ This repository contains scripts and data used in the nanoparticle section of th
 [<img src="TOC2.png" alt="Table of Contents Figure" width="30%">](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290) 
 
 ## Overview  
-The repository contains production and analysis scripts for investigating magnetite nanoparticles via oxidation state swaps. It includes scripts to generate spherical and cubical nanoparticles, hydroxylate undercoordinated Fe ions (spherical), apply corner reconstruction (cubical), and compare the energies of reconstructed vs. unreconstructed nanocubes. It also includes scripts to investigate the influence of different ensembles and minimization schemes on cubical ana spherical nanoparticles.
+The repository contains production and analysis scripts for investigating magnetite nanoparticles via oxidation state swaps. It includes scripts to generate spherical and cubical nanoparticles, hydroxylate undercoordinated Fe ions (spherical), apply corner reconstruction (cubical), and compare the energies of reconstructed vs. unreconstructed nanocubes. It also includes scripts to investigate the influence of different ensembles and minimization schemes on cubical and spherical nanoparticles.
 
 ## Repository Structure  
 ```
