@@ -1,5 +1,4 @@
-# Magnetite Nanoparticle: Oxidation State Swaps
-
+# Magnetite Nanoparticle:
 [![DOI](https://img.shields.io/badge/DOI-10.1021/acs.jpclett.3c01290-blue)](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290)  
 
 This repository contains scripts and data used in the bulk section of the research paper [**Oxidation-State Dynamics and Emerging Patterns in Magnetite**](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.3c01290)
